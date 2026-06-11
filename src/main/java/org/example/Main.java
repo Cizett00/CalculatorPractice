@@ -68,21 +68,39 @@ public class Main {
 
 //            double value = result.getResult();
 
+            System.out.println(" ");
+            System.out.println(" ");
 
             System.out.println("The result is " + result.getResult());
             ResultCollection.list.add(result.getResult());
 
 
-            System.out.println("Only results greater than the typed number will be displayed.");
-            double d = sc.nextDouble();
-            ResultCollection.list.stream()
+
+
+            System.out.println("Type exit to exit");
+            System.out.println("Type 1 to display result");
+            System.out.println("Type 2 to remove first result");
+
+            String additional_cal = sc.next();
+            switch (additional_cal){
+                case("1"):{
+
+                    System.out.println("Only results greater than the typed number will be displayed.");
+                    double d = sc.nextDouble();
+                    ResultCollection.list.stream()
                             .filter(ResultCollection -> ResultCollection > d)
                             .forEach(System.out::println);
-
-
-            System.out.println("If you want calculate again, type 1");
-            int keepCal = sc.nextInt();
-            if(keepCal != 1) break;
+                    System.out.println(" ");
+                    break;
+                }
+                case("2"):{
+                    System.out.println("removed result: " + ResultCollection.list.get(0));
+                    ResultCollection.list.remove(0);
+                    System.out.println("current result list: " + ResultCollection.list);
+                    break;
+                }
+            }
+            if(additional_cal.equals("exit")) break;
         }
     }
 }
