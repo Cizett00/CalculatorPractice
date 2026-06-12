@@ -39,11 +39,19 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
+        double result_cal = 0;
+        double firstNum;
         while(true) {  //원할때까지 계산 반복
 
-            System.out.print("Type first Number ");
-            double firstNum = sc.nextDouble();
+            if(result_cal != 0){
+                firstNum = result_cal;
+                result_cal = 0;
+            }
+            else{
+                System.out.print("Type first Number ");
+                firstNum = sc.nextDouble();
+            }
+
 
             System.out.print("Type calculator symbols ");
             char symbols = sc.next().charAt(0);
@@ -64,25 +72,50 @@ public class Main {
             }
 
             CalResult<Double> result = new CalResult<Double>(); //결과값 제네릭으로 선언
+
             result.setResult(op.cal(firstNum, secondNum));
 
 //            double value = result.getResult();
 
+            System.out.println(" ");
+            System.out.println(" ");
 
             System.out.println("The result is " + result.getResult());
             ResultCollection.list.add(result.getResult());
 
 
-            System.out.println("Only results greater than the typed number will be displayed.");
-            double d = sc.nextDouble();
-            ResultCollection.list.stream()
+
+
+            System.out.println("Type exit to exit");
+            System.out.println("Type 1 to display result");
+            System.out.println("Type 2 to remove first result");
+            System.out.println("Type 3 to calculate using previous result");
+
+            String additional_cal = sc.next();
+            switch (additional_cal){
+                case("1"):{
+
+                    System.out.println("Only results greater than the typed number will be displayed.");
+                    double d = sc.nextDouble();
+                    ResultCollection.list.stream()
                             .filter(ResultCollection -> ResultCollection > d)
                             .forEach(System.out::println);
-
-
-            System.out.println("If you want calculate again, type 1");
-            int keepCal = sc.nextInt();
-            if(keepCal != 1) break;
+                    System.out.println(" ");
+                    break;
+                }
+                case("2"):{
+                    System.out.println("removed result: " + ResultCollection.list.get(0));
+                    ResultCollection.list.remove(0);
+                    System.out.println("current result list: " + ResultCollection.list);
+                    break;
+                }
+                case("3"):{
+                    result_cal = ResultCollection.list.getLast();
+                    System.out.println("previous result: " + ResultCollection.list.getLast());
+                    break;
+                }
+            }
+            if(additional_cal.equals("exit")) break;
         }
     }
 }
